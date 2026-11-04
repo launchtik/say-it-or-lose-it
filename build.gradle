@@ -1,0 +1,122 @@
+plugins {
+    id 'fabric-loom' version "${loom_version}"
+}
+
+// Mod-jar convention: <mod>-<version>+<minecraft>, e.g. sayit-1.0.0+1.21.11.jar
+version = "${project.mod_version}+${project.minecraft_version}"
+group = project.maven_group
+base { archivesName = project.archives_base_name }
+
+repositories {
+    mavenCentral()
+}
+
+loom {
+    splitEnvironmentSourceSets()
+    mods {
+        "sayit" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+    // Offline speech recognition. JNA is already on Minecraft's classpath.
+    clientImplementation("com.alphacephei:vosk:${project.vosk_version}") { exclude group: 'net.java.dev.jna' }
+    include("com.alphacephei:vosk:${project.vosk_version}") { transitive = false }
+
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+               "minecraft_version": project.minecraft_version,
+               "loader_version": project.loader_version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+    it.options.encoding = 'UTF-8'
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+test {
+    useJUnitPlatform()
+    testLogging { events "passed", "failed", "skipped"; exceptionFormat "full" }
+}
+
+jar {
+    from("LICENSE") { rename { "${it}_${project.base.archivesName.get()}" } }
+    from("THIRD_PARTY_NOTICES.md")
+}
+
+// ./gradlew downloadVoskModel -Plang=de_de   -> run/config/sayit/models/<model>
+// ./gradlew listLanguages                    -> every supported Minecraft locale
+// The language table is shared with the mod: src/main/resources/assets/sayit/languages.json
+def sayitLanguages = { new groovy.json.JsonSlurper().parse(file('src/main/resources/assets/sayit/languages.json')).languages }
+
+tasks.register('listLanguages') {
+    group = 'sayit'
+    description = 'Lists every supported language and its Vosk model.'
+    doLast { sayitLanguages().each { k, v -> println "${k.padRight(7)} ${v.name.padRight(11)} ${v.model}" } }
+}
+
+tasks.register('downloadVoskModel') {
+    group = 'sayit'
+    description = 'Downloads the small Vosk model for -Plang (default de_de) into run/config/sayit/models.'
+    doLast {
+        def lang = (project.findProperty('lang') ?: 'de_de').toString()
+        def entry = sayitLanguages()[lang]
+        if (entry == null) throw new GradleException("No Vosk model for ${lang}. Run ./gradlew listLanguages")
+        def name = entry.model
+        def dir = file("run/config/sayit/models")
+        dir.mkdirs()
+        if (new File(dir, name).isDirectory()) { println "Already present: ${dir}/${name}"; return }
+        def zip = new File(dir, "${name}.zip")
+        println "Downloading https://alphacephei.com/vosk/models/${name}.zip ..."
+        new URL("https://alphacephei.com/vosk/models/${name}.zip").withInputStream { i -> zip.withOutputStream { it << i } }
+        ant.unzip(src: zip, dest: dir)
+        zip.delete()
+        println "Installed ${dir}/${name}"
+    }
+}
+
+// ./gradlew prodClient  -> runs the built (remapped) jar in a real production Fabric client with Fabric API,
+// exactly as a player would. Game folder: run/prod (models are shared from run/config/sayit/models).
+configurations { productionRuntimeMods }
+dependencies { productionRuntimeMods "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}" }
+tasks.register('prodClient', net.fabricmc.loom.task.prod.ClientProductionRunTask) {
+    group = 'sayit'
+    mods.from(configurations.productionRuntimeMods)
+    runDir = file('run/prod')
+}
+
+// ./gradlew dist  -> dist/SayIt-<version>.zip with the mod jar, install guide, license and notices
+tasks.register('dist', Zip) {
+    group = 'sayit'
+    description = 'Packages the release jar with the player install guide.'
+    dependsOn tasks.named('remapJar'), tasks.named('test')
+    archiveFileName = "SayIt-${project.version}.zip"
+    destinationDirectory = file('dist')
+    from(tasks.named('remapJar'))
+    from('dist/INSTALL.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md')
+    doLast { copy { from(tasks.named('remapJar')); into('dist') } }
+}

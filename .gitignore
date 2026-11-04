@@ -1,0 +1,15 @@
+# build output
+build/
+.gradle/
+out/
+*.iml
+.idea/
+# dev game folders (worlds, configs, downloaded speech models)
+run/
+# release artifacts go to GitHub Releases, not the repo
+dist/*.jar
+dist/*.zip
+# reference material (someone else's video and stills from it)
+reference.mp4
+frames/
+analysis/

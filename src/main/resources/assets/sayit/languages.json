@@ -1,0 +1,171 @@
+{
+  "_comment": "Minecraft locale -> small Vosk model (https://alphacephei.com/vosk/models) and English language name. openCheck=false: the open-vocabulary model is too weak on single words for the NORMAL/HARD accent check, a confidence bar is used instead. foldAccents=false: diacritics change the meaning (Vietnamese tones).",
+  "languages": {
+    "de_de": {
+      "model": "vosk-model-small-de-0.15",
+      "name": "German"
+    },
+    "de_at": {
+      "model": "vosk-model-small-de-0.15",
+      "name": "German"
+    },
+    "de_ch": {
+      "model": "vosk-model-small-de-0.15",
+      "name": "German"
+    },
+    "es_es": {
+      "model": "vosk-model-small-es-0.42",
+      "name": "Spanish"
+    },
+    "es_mx": {
+      "model": "vosk-model-small-es-0.42",
+      "name": "Spanish"
+    },
+    "es_ar": {
+      "model": "vosk-model-small-es-0.42",
+      "name": "Spanish"
+    },
+    "es_cl": {
+      "model": "vosk-model-small-es-0.42",
+      "name": "Spanish"
+    },
+    "es_ec": {
+      "model": "vosk-model-small-es-0.42",
+      "name": "Spanish"
+    },
+    "es_uy": {
+      "model": "vosk-model-small-es-0.42",
+      "name": "Spanish"
+    },
+    "es_ve": {
+      "model": "vosk-model-small-es-0.42",
+      "name": "Spanish"
+    },
+    "fr_fr": {
+      "model": "vosk-model-small-fr-0.22",
+      "name": "French"
+    },
+    "fr_ca": {
+      "model": "vosk-model-small-fr-0.22",
+      "name": "French"
+    },
+    "fr_ch": {
+      "model": "vosk-model-small-fr-0.22",
+      "name": "French"
+    },
+    "it_it": {
+      "model": "vosk-model-small-it-0.22",
+      "name": "Italian"
+    },
+    "pt_br": {
+      "model": "vosk-model-small-pt-0.3",
+      "name": "Portuguese"
+    },
+    "pt_pt": {
+      "model": "vosk-model-small-pt-0.3",
+      "name": "Portuguese"
+    },
+    "nl_nl": {
+      "model": "vosk-model-small-nl-0.22",
+      "name": "Dutch"
+    },
+    "nl_be": {
+      "model": "vosk-model-small-nl-0.22",
+      "name": "Dutch"
+    },
+    "ru_ru": {
+      "model": "vosk-model-small-ru-0.22",
+      "name": "Russian"
+    },
+    "pl_pl": {
+      "model": "vosk-model-small-pl-0.22",
+      "name": "Polish"
+    },
+    "cs_cz": {
+      "model": "vosk-model-small-cs-0.4-rhasspy",
+      "name": "Czech"
+    },
+    "tr_tr": {
+      "model": "vosk-model-small-tr-0.3",
+      "name": "Turkish"
+    },
+    "ca_es": {
+      "model": "vosk-model-small-ca-0.4",
+      "name": "Catalan"
+    },
+    "eo_uy": {
+      "model": "vosk-model-small-eo-0.42",
+      "name": "Esperanto"
+    },
+    "ar_sa": {
+      "model": "vosk-model-small-ar-0.3",
+      "name": "Arabic"
+    },
+    "fa_ir": {
+      "model": "vosk-model-small-fa-0.42",
+      "name": "Persian"
+    },
+    "hi_in": {
+      "model": "vosk-model-small-hi-0.22",
+      "name": "Hindi"
+    },
+    "ja_jp": {
+      "model": "vosk-model-small-ja-0.22",
+      "name": "Japanese"
+    },
+    "ko_kr": {
+      "model": "vosk-model-small-ko-0.22",
+      "name": "Korean",
+      "openCheck": false
+    },
+    "zh_cn": {
+      "model": "vosk-model-small-cn-0.22",
+      "name": "Chinese"
+    },
+    "vi_vn": {
+      "model": "vosk-model-small-vn-0.4",
+      "name": "Vietnamese",
+      "foldAccents": false
+    },
+    "ka_ge": {
+      "model": "vosk-model-small-ka-0.42",
+      "name": "Georgian"
+    },
+    "kk_kz": {
+      "model": "vosk-model-small-kz-0.42",
+      "name": "Kazakh"
+    },
+    "ky_kg": {
+      "model": "vosk-model-small-ky-0.42",
+      "name": "Kyrgyz"
+    },
+    "uz_uz": {
+      "model": "vosk-model-small-uz-0.22",
+      "name": "Uzbek"
+    },
+    "sv_se": {
+      "model": "vosk-model-small-sv-rhasspy-0.15",
+      "name": "Swedish"
+    },
+    "en_us": {
+      "model": "vosk-model-small-en-us-0.15",
+      "name": "English"
+    },
+    "en_ca": {
+      "model": "vosk-model-small-en-us-0.15",
+      "name": "English"
+    },
+    "en_au": {
+      "model": "vosk-model-small-en-us-0.15",
+      "name": "English"
+    },
+    "en_nz": {
+      "model": "vosk-model-small-en-us-0.15",
+      "name": "English"
+    },
+    "en_gb": {
+      "model": "vosk-model-small-en-gb-0.15",
+      "name": "English"
+    }
+  }
+}

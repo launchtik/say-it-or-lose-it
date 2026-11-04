@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "sayit",
+  "version": "${version}",
+  "name": "Say It (or Lose It)",
+  "description": "Every new item you get shows its name in a foreign language. Say it into your microphone before the timer runs out to keep it - or lose it. 25 languages, offline speech recognition (Vosk), no account or API key needed.",
+  "authors": ["launchtik"],
+  "contact": {
+    "homepage": "https://github.com/launchtik/say-it-or-lose-it",
+    "sources": "https://github.com/launchtik/say-it-or-lose-it",
+    "issues": "https://github.com/launchtik/say-it-or-lose-it/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/sayit/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.sayit.SayItMod"],
+    "client": ["dev.sayit.client.SayItClient"]
+  },
+  "mixins": ["sayit.mixins.json"],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "dev.sayit.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ItemEntityMixin",
+    "ItemStackCraftMixin",
+    "ScreenHandlerMixin"
+  ],
+  "injectors": { "defaultRequire": 1 }
+}
